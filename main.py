@@ -17,7 +17,7 @@ s = """
 def rewrite_color(color):
     try:
         int(color, 16)
-        color = '#' + color
+        return '#' + color
     except:
         return color
 
@@ -25,9 +25,9 @@ def rewrite_color(color):
 @app.route("/")
 def get():
     # 根据字符串创建svg
+    text = request.args.get('text', '我').strip() or '我'
     background = request.args.get('background', "#dddddd")
     color = request.args.get('color', '#42b983')
-    text = request.args.get('text', '我').strip() or '我'
     if len(text) > 1:
         text = text[0]
     background = rewrite_color(background)
