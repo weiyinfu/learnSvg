@@ -1,0 +1,47 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+  <style>
+    pre {
+      border: solid 1px black;
+    }
+  </style>
+</head>
+<body>
+<div id="main">
+  <div v-for="demo in demos" :key="demo.name">
+    <h1><a :href="demo.name" target="_blank">{{demo.name}}</a></h1>
+    <pre>{{demo.content}}
+  </pre>
+    <embed :src="encodeURI( demo.name)" type="image/svg+xml"/>
+  </div>
+</div>
+</body>
+<script>
+  new Vue({
+    el: "#main",
+    data() {
+      return {
+        demos: []
+      }
+    },
+    mounted() {
+      axios.get("demo/index.json").then(resp => {
+        const index = resp.data;
+        axios.all(index.map(filename => axios.get(filename))).then(resp => {
+          const allData = resp.map(x => x.data);
+          for (let i = 0; i < index.length; i++) {
+            this.demos.push({
+              name: index[i],
+              content: allData[i],
+            })
+          }
+        })
+      })
+    }
+  })
+
+</script>
+</html>

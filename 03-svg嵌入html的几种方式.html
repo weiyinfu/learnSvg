@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>SVG嵌入HTML的几种方式</h1>
+<ol>
+  <li>
+    <h2>直接嵌入</h2>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <circle cx="100" cy="50" r="40" stroke="black"
+              stroke-width="2" fill="red"/>
+    </svg>
+  </li>
+  <li>
+    <h2>使用embed</h2>
+    <embed src="04-haha.svg" type="image/svg+xml"/>
+  </li>
+  <li>
+    <h2> 使用object</h2>
+    <object data="04-haha.svg" type="image/svg+xml"></object>
+  </li>
+  <li>
+    <h2> 使用iframe</h2>
+    <iframe src="04-haha.svg"></iframe>
+  </li>
+  <li>
+    <h2> 使用img</h2>
+    <img src="04-haha.svg">
+  </li>
+  <li>
+    <h2> 使用css</h2>
+    <div style="background: url('04-haha.svg');width:200px; height:200px"></div>
+  </li>
+  <li>
+    <h2> 使用超链接（不可显示）</h2>
+    <a href="04-haha.svg">svg</a>
+  </li>
+</ol>
+</body>
+<script>
+  const lis = document.querySelectorAll("li")
+  for (let li of lis) {
+    const ele = document.createElement("pre");
+    ele.innerText = li.innerHTML;
+    li.append(ele);
+  }
+</script>
+</html>
