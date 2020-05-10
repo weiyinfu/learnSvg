@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, make_response
+import re
 
 app = Flask(__name__)
 
@@ -13,6 +14,14 @@ s = """
 """
 
 
+def rewrite_color(color):
+    try:
+        int(color, 16)
+        color = '#' + color
+    except:
+        return color
+
+
 @app.route("/")
 def get():
     # 根据字符串创建svg
@@ -21,7 +30,11 @@ def get():
     text = request.args.get('text', '我').strip() or '我'
     if len(text) > 1:
         text = text[0]
-    return s.format(background=background, color=color, text=text)
+    background = rewrite_color(background)
+    color = rewrite_color(color)
+    resp = make_response(s.format(background=background, color=color, text=text))
+    resp.headers['Content-Type'] = "image/svg+xml"
+    return resp
 
 
 if __name__ == '__main__':
